@@ -1,0 +1,81 @@
+limbik-radio/
+│
+├───────────────────────────────────────────────────────────
+│  FRONTEND  (Vite + React)
+├───────────────────────────────────────────────────────────
+│
+├── client/
+│   │
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── Dockerfile
+│   │
+│   └── src/
+│       │
+│       ├── main.jsx              → Point d’entrée React
+│       ├── App.jsx               → Composant racine
+│       │
+│       ├── components/
+│       │     ├── Player.jsx
+│       │     ├── SongHistoryModal.jsx
+│       │     ├── SongRequestModal.jsx
+│       │     └── PlaylistModal.jsx
+│       │
+│       ├── services/
+│       │     └── api.js          → Appels HTTP vers backend
+│       │
+│       └── styles/
+│             ├── main.css
+│             └── player.css
+│
+│
+├───────────────────────────────────────────────────────────
+│  BACKEND  (Node + Express)
+├───────────────────────────────────────────────────────────
+│
+├── server/
+│   │
+│   ├── package.json
+│   ├── Dockerfile
+│   │
+│   ├── server.js                 → Serveur principal
+│   │
+│   ├── config/
+│   │     ├── db.js               → Connexion PostgreSQL
+│   │     └── redis.js            → Connexion Redis
+│   │
+│   ├── routes/
+│   │     ├── auth.routes.js
+│   │     ├── radio.routes.js
+│   │     └── playlist.routes.js
+│   │
+│   ├── controllers/
+│   │     ├── auth.controller.js
+│   │     ├── radio.controller.js
+│   │     └── playlist.controller.js
+│   │
+│   ├── middleware/
+│   │     └── auth.middleware.js
+│   │
+│   └── services/
+│         ├── stream.service.js
+│         └── pls.service.js
+│
+│
+├───────────────────────────────────────────────────────────
+│  DATABASE & STORAGE
+├───────────────────────────────────────────────────────────
+│
+├── database/
+│   └── init.sql                  → Création des tables
+│
+├── media/
+│   └── mp3/
+│       ├── chill.mp3
+│       ├── ambient.mp3
+│       └── techno.mp3
+│
+├── docker-compose.yml            → Orchestration Docker
+│
+└── README.md

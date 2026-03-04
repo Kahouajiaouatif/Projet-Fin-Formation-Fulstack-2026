@@ -1,0 +1,85 @@
+Fonctionalité coeur: Création d'un Lecteur Multimédia, qui diffuse aléatoirement des fichiers audio de format pm3, en temps réel. Technologies utilisées: Docker englobera; Nodej JS (client-server), React, Redis(authentification utilisateurs), PostGreSQL (stockage playlist). Fonctionalités principales: 1. Inscription + Authentification sécurisée(Login/logout/mail/mot-pass), écoute + diffusion de musique (en temps réel) via un lecteur multimedia personalisé (flexbox), recupération d'historique des titres (10 premières tracks => song hostory),téléchargement playlist; les fichiers se téléchargent sous format .pls, afin que l'utilisateur puisse lire ces fichiers une fois téléchargé => playlist il aura besoin d'installer vlc sur son ordinateur ou portable. Et enfin création d'une barre de recherche, ou l'utilisateur pourra rechercher par nom d'artiste ou nom d'une track => request song. En appuyant sur song history, un historique des 10 dernières chançons sous forme d'une modal apparaitra, avec un onglet de fermeture, en appuyant sur song request, une barre de recherche apparaitre sous forme de modal ou l'utilisateur pourra rechercher un  titre et en appuyant sur playlist l'utilisateur pourra télécharger sous forme de format .pls une playlist des titres joués. Utilise l'exemple que je t'es fourni en jpg c'est l'interface de Limbique Frequencies radio, je voudrais crée une interface similaire en utilisant les technologies citées au dessus. Crée moi l'arborescence de base du programme, je travail avec visual code studio. Pour le style j'utiliserais que html css et java script, pas de tailwind ou bootsrap. je voudrais une architecture ergonomique et simple, utilise redis pour l'authetification utilisateur et postgreSQL pour stocké des fichiers mp3. Je n'ai pas encore téléchargé des fichiers mp3 peux tu aussi en intégré qqs en exemples.
+
+
+
+limbik-radio/
+│
+├───────────────────────────────────────────────────────────
+│  FRONTEND  (Vite + React)
+├───────────────────────────────────────────────────────────
+│
+├── client/
+│   │
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── Dockerfile
+│   │
+│   └── src/
+│       │
+│       ├── main.jsx              → Point d’entrée React
+│       ├── App.jsx               → Composant racine
+│       │
+│       ├── components/
+│       │     ├── Player.jsx
+│       │     ├── SongHistoryModal.jsx
+│       │     ├── SongRequestModal.jsx
+│       │     └── PlaylistModal.jsx
+│       │
+│       ├── services/
+│       │     └── api.js          → Appels HTTP vers backend
+│       │
+│       └── styles/
+│             ├── main.css
+│             └── player.css
+│
+│
+├───────────────────────────────────────────────────────────
+│  BACKEND  (Node + Express)
+├───────────────────────────────────────────────────────────
+│
+├── server/
+│   │
+│   ├── package.json
+│   ├── Dockerfile
+│   │
+│   ├── server.js                 → Serveur principal
+│   │
+│   ├── config/
+│   │     ├── db.js               → Connexion PostgreSQL
+│   │     └── redis.js            → Connexion Redis
+│   │
+│   ├── routes/
+│   │     ├── auth.routes.js
+│   │     ├── radio.routes.js
+│   │     └── playlist.routes.js
+│   │
+│   ├── controllers/
+│   │     ├── auth.controller.js
+│   │     ├── radio.controller.js
+│   │     └── playlist.controller.js
+│   │
+│   ├── middleware/
+│   │     └── auth.middleware.js
+│   │
+│   └── services/
+│         ├── stream.service.js
+│         └── pls.service.js
+│
+│
+├───────────────────────────────────────────────────────────
+│  DATABASE & STORAGE
+├───────────────────────────────────────────────────────────
+│
+├── database/
+│   └── init.sql                  → Création des tables
+│
+├── media/
+│   └── mp3/
+│       ├── chill.mp3
+│       ├── ambient.mp3
+│       └── techno.mp3
+│
+├── docker-compose.yml            → Orchestration Docker
+│
+└── README.md
