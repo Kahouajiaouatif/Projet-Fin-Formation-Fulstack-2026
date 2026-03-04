@@ -1,0 +1,111 @@
+================================================================================
+                    LIMBIK RADIO — ARCHITECTURE TECHNIQUE
+================================================================================
+
+                                 CLIENT LAYER
+================================================================================
+                         ┌─────────────────────────┐
+                         │        NAVIGATEUR       │
+                         │   http://localhost:5173 │
+                         └──────────────┬──────────┘
+                                        │
+                                        ▼
+                         ┌─────────────────────────┐
+                         │     VITE DEV SERVER     │
+                         │        (Port 5173)      │
+                         └──────────────┬──────────┘
+                                        │
+                                        ▼
+                         ┌─────────────────────────┐
+                         │        REACT APP        │
+                         │-------------------------│
+                         │ main.jsx (Bootstrap)    │
+                         │ App.jsx (Root)          │
+                         │ Player.jsx              │
+                         │ Modals (History/Req)    │
+                         │ CSS (Flexbox Layout)    │
+                         └──────────────┬──────────┘
+                                        │
+                                        │ HTTP REST API
+                                        ▼
+
+================================================================================
+                                 SERVER LAYER
+================================================================================
+                         ┌─────────────────────────┐
+                         │    NODE + EXPRESS API   │
+                         │        (Port 5000)      │
+                         │-------------------------│
+                         │ Middleware:             │
+                         │ - CORS                  │
+                         │ - JSON Parser           │
+                         │ - Auth (Redis)          │
+                         │-------------------------│
+                         │ Routes:                 │
+                         │ GET  /stream            │
+                         │ GET  /history           │
+                         │ POST /login (future)    │
+                         │ POST /register (future) │
+                         └───────────┬───────┬─────┘
+                                     │       │
+                                     │       │
+                                     ▼       ▼
+
+================================================================================
+                            DATA & CACHE LAYER
+================================================================================
+
+        ┌──────────────────────────┐        ┌──────────────────────────┐
+        │       PostgreSQL         │        │          Redis           │
+        │        (Port 5432)       │        │        (Port 6379)       │
+        │--------------------------│        │--------------------------│
+        │ Tables:                  │        │ session:userId → JWT     │
+        │ - users                  │        │ Expiration: 24h          │
+        │ - tracks                 │        │                          │
+        │ - history                │        │ Fast in-memory storage   │
+        │                          │        │                          │
+        │ Persistent Storage       │        │ Volatile / Cache Layer   │
+        └──────────────┬───────────┘        └──────────────────────────┘
+                       │
+                       ▼
+
+================================================================================
+                               FILE SYSTEM LAYER
+================================================================================
+
+                         ┌─────────────────────────┐
+                         │       /media/mp3        │
+                         │-------------------------│
+                         │ chill.mp3               │
+                         │ ambient.mp3             │
+                         │ techno.mp3              │
+                         └─────────────────────────┘
+
+
+================================================================================
+                               DATA FLOW (STREAM)
+================================================================================
+
+1) User clicks PLAY
+2) React → GET /stream
+3) Express API receives request
+4) Query PostgreSQL: SELECT * FROM tracks
+5) Random track selection (Business Logic)
+6) INSERT INTO history
+7) fs.createReadStream(mp3)
+8) Audio stream piped to HTTP response
+9) Browser plays real-time audio 🎧
+
+
+================================================================================
+                           ARCHITECTURAL PATTERN
+================================================================================
+
+Frontend:        SPA (Single Page Application)
+Backend:         RESTful API
+Auth:            Token-based (JWT + Redis session store)
+Database:        Relational Model (PostgreSQL)
+Streaming:       HTTP Streaming (audio/mpeg)
+Infrastructure:  Containerized (Docker)
+
+================================================================================
