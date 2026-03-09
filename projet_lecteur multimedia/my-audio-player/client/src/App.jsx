@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import './index.css'
-import Login from './components/Login'
+import LoginPage from './pages/LoginPage'
 import Player from './components/Player'
 import SongHistoryModal from './components/SongHistoryModal'
 import AccountManager from './components/AccountManager'
@@ -15,7 +15,7 @@ export default function App() {
 
   // Si pas connecté → page Login
   if (!user) {
-    return <Login onLogin={(userData) => setUser(userData)} />
+    return <LoginPage onLogin={(userData) => setUser(userData)} />
   }
 
   return (

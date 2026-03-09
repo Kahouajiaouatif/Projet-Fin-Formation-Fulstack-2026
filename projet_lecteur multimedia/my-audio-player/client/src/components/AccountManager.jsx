@@ -73,6 +73,7 @@ export default function AccountManager({ user, onClose, onUpdateUser }) {
       // TODO: remplacer par un vrai appel API
       // await fetch('/api/users/me/password', { method: 'PATCH', body: JSON.stringify({ currentPwd, newPwd }) })
       await new Promise(r => setTimeout(r, 600)) // simulation
+      // await this.userService.changePassword(currentPwd, newPwd) // simule vérification mot de passe actuel
       setCurrentPwd('')
       setNewPwd('')
       setConfirmPwd('')

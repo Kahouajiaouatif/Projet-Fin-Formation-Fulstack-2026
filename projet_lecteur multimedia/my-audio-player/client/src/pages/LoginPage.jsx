@@ -1,55 +1,30 @@
 import { useState } from 'react'
 
-export default function Login({ onLogin }) {
+export default function LoginPage({ onLogin }) {
   const [isRegister, setIsRegister] = useState(false)
   const [email, setEmail]           = useState('')
   const [password, setPassword]     = useState('')
   const [username, setUsername]     = useState('')
+  const [errors, setErrors]         = useState({})
 
-  // Erreurs par champ
-  const [errors, setErrors] = useState({})
-
-  /* ── Règles de validation ── */
   function validate() {
-    const newErrors = {}
-
-    // Nom d'utilisateur (inscription uniquement)
+    const e = {}
     if (isRegister) {
-      if (!username.trim()) {
-        newErrors.username = "Le nom d'utilisateur est obligatoire."
-      } else if (username.trim().length < 3) {
-        newErrors.username = "Minimum 3 caractères."
-      } else if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-        newErrors.username = "Uniquement lettres, chiffres et _ autorisés."
-      }
+      if (!username.trim()) e.username = "Le nom d'utilisateur est obligatoire."
+      else if (username.trim().length < 3) e.username = 'Minimum 3 caractères.'
+      else if (!/^[a-zA-Z0-9_]+$/.test(username)) e.username = 'Lettres, chiffres et _ uniquement.'
     }
-
-    // Email
-    if (!email.trim()) {
-      newErrors.email = "L'email est obligatoire."
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = "Format email invalide (ex: ton@email.com)."
-    }
-
-    // Mot de passe
-    if (!password) {
-      newErrors.password = "Le mot de passe est obligatoire."
-    } else if (password.length < 6) {
-      newErrors.password = "Minimum 6 caractères."
-    }
-
-    return newErrors
+    if (!email.trim()) e.email = "L'email est obligatoire."
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = 'Format email invalide.'
+    if (!password) e.password = 'Le mot de passe est obligatoire.'
+    else if (password.length < 6) e.password = 'Minimum 6 caractères.'
+    return e
   }
 
   function handleSubmit(e) {
     e.preventDefault()
-
     const foundErrors = validate()
-    if (Object.keys(foundErrors).length > 0) {
-      setErrors(foundErrors)
-      return
-    }
-
+    if (Object.keys(foundErrors).length > 0) { setErrors(foundErrors); return }
     setErrors({})
     // Connexion simulée — sera remplacée par un appel API
     onLogin({ email, username: username || email.split('@')[0] })
@@ -66,13 +41,11 @@ export default function Login({ onLogin }) {
   return (
     <div style={styles.page}>
 
-      {/* Logo */}
       <div style={styles.logoBlock}>
         <h1 style={styles.logo}>MYAUDIOPLAYER</h1>
         <p style={styles.tagline}>Electronic · Ambient · Techno</p>
       </div>
 
-      {/* Carte */}
       <div style={styles.card}>
         <h2 style={styles.formTitle}>
           {isRegister ? 'Créer un compte' : 'Connexion'}
@@ -80,61 +53,40 @@ export default function Login({ onLogin }) {
 
         <form onSubmit={handleSubmit} style={styles.form} noValidate>
 
-          {/* Nom d'utilisateur */}
           {isRegister && (
             <div style={styles.field}>
               <label style={styles.label}>Nom d'utilisateur</label>
               <input
-                style={{
-                  ...styles.input,
-                  borderColor: errors.username ? 'var(--neon-pink)' : 'var(--border)',
-                }}
+                style={{ ...styles.input, borderColor: errors.username ? 'var(--neon-pink)' : 'var(--border)' }}
                 type="text"
                 placeholder="DJ Limbik"
                 value={username}
-                onChange={e => {
-                  setUsername(e.target.value)
-                  setErrors(prev => ({ ...prev, username: '' }))
-                }}
+                onChange={e => { setUsername(e.target.value); setErrors(p => ({ ...p, username: '' })) }}
               />
               {errors.username && <span style={styles.fieldError}>{errors.username}</span>}
             </div>
           )}
 
-          {/* Email */}
           <div style={styles.field}>
             <label style={styles.label}>Email</label>
             <input
-              style={{
-                ...styles.input,
-                borderColor: errors.email ? 'var(--neon-pink)' : 'var(--border)',
-              }}
+              style={{ ...styles.input, borderColor: errors.email ? 'var(--neon-pink)' : 'var(--border)' }}
               type="email"
               placeholder="ton@email.com"
               value={email}
-              onChange={e => {
-                setEmail(e.target.value)
-                setErrors(prev => ({ ...prev, email: '' }))
-              }}
+              onChange={e => { setEmail(e.target.value); setErrors(p => ({ ...p, email: '' })) }}
             />
             {errors.email && <span style={styles.fieldError}>{errors.email}</span>}
           </div>
 
-          {/* Mot de passe */}
           <div style={styles.field}>
             <label style={styles.label}>Mot de passe</label>
             <input
-              style={{
-                ...styles.input,
-                borderColor: errors.password ? 'var(--neon-pink)' : 'var(--border)',
-              }}
+              style={{ ...styles.input, borderColor: errors.password ? 'var(--neon-pink)' : 'var(--border)' }}
               type="password"
               placeholder="••••••••"
               value={password}
-              onChange={e => {
-                setPassword(e.target.value)
-                setErrors(prev => ({ ...prev, password: '' }))
-              }}
+              onChange={e => { setPassword(e.target.value); setErrors(p => ({ ...p, password: '' })) }}
             />
             {errors.password && <span style={styles.fieldError}>{errors.password}</span>}
           </div>
