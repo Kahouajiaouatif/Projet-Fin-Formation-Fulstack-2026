@@ -11,6 +11,11 @@ CREATE TABLE tracks (
     file_path TEXT
 );
 
+INSERT INTO tracks (title, artist, file_path)
+VALUES
+('Everything Feels New', 'Evgeny Bardyuza', '/app/media/mp3/evgeny_bardyuza-everything-feels-new.mp3'),
+('Playful Glitch IDM',   'Musinova',        '/app/media/mp3/musinova-playful-glitch-idm-electronic.mp3');
+
 CREATE TABLE history (
     id SERIAL PRIMARY KEY,
     track_id INT REFERENCES tracks(id),

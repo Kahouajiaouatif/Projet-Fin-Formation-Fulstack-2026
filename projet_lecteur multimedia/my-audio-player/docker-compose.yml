@@ -11,6 +11,8 @@ services:
       POSTGRES_DB: radio_db
     ports:
       - "5432:5432"
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   redis:
     image: redis:7
